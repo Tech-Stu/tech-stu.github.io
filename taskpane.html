@@ -11,36 +11,68 @@
     <p>This add-in will insert the text 'Hello world!' NEW NEW NEW in a new message.</p>
     <button id="helloButton">Say hello TO THE WORLD</button>
 
-</body>
+    <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
+    <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" />
 
-<script>
+    <script>
+        Office.onReady((info) => {
+            if (info.host === Office.HostType.Outlook) {
+                // Assign the event handler to the ItemChanged event
+                Office.context.mailbox.item.addHandlerAsync(Office.EventType.ItemChanged, itemChangedHandler);
+                document.getElementById("helloButton").onclick = sayHello;
+            }
+        });
 
-    Office.onReady((info) => {
-        if (info.host === Office.HostType.Outlook) {
-            document.getElementById("helloButton").onclick = sayHello;
-        }
-    });
-
-    /**
-     * Writes 'Hello world!' to a new message body.
-     */
-    function sayHello() {
-        Office.context.mailbox.item.body.setAsync(
-            "Hello world TO THE WORLD!",
-            {
-                coercionType: "html", // Write text as HTML
-            },
-
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-                if (asyncResult.status ==
-                    Office.AsyncResultStatus.Failed) {
-                    write(asyncResult.error.message);
+        /**
+         * Event handler for the ItemChanged event
+         */
+        function itemChangedHandler(eventArgs) {
+            // Check if the item type is a message
+            if (eventArgs.itemType === Office.MailboxEnums.ItemType.Message) {
+                // Check if the message is a draft or a reply/forward
+                if (eventArgs.isCompose) {
+                    // Enable your add-in features for compose mode
+                    enableAddInFeatures();
+                } else {
+                    // Disable your add-in features for read mode
+                    disableAddInFeatures();
                 }
             }
-        );
-    }
+        }
 
-</script>
+        /**
+         * Writes 'Hello world!' to a new message body.
+         */
+        function sayHello() {
+            Office.context.mailbox.item.body.setAsync(
+                "Hello world TO THE WORLD!",
+                {
+                    coercionType: "html", // Write text as HTML
+                },
+                // Callback method to check that setAsync succeeded
+                function (asyncResult) {
+                    if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                        write(asyncResult.error.message);
+                    }
+                }
+            );
+        }
+
+        /**
+         * Enable add-in features for compose mode
+         */
+        function enableAddInFeatures() {
+            // Add code to enable specific features when composing a new email or replying/forwarding
+        }
+
+        /**
+         * Disable add-in features for read mode
+         */
+        function disableAddInFeatures() {
+            // Add code to disable specific features when reading an email
+        }
+    </script>
+
+</body>
 
 </html>
