@@ -8,15 +8,21 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' NEW NEW NEW with new Functions in a new message.</p>
-    <button id="helloButton">Say hello TO THE WORLD Automatic Open2</button>
+    <p>This add-in will insert the text 'Hello world!' NEW3</p>
+    <button id="helloButton">Say hello TO THE WORLD</button>
+
+    <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
+    <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" />
 
     <script>
+        // Office.onReady is triggered when the Office host application is ready
         Office.onReady((info) => {
+            // Ensure the Office host application is Outlook
             if (info.host === Office.HostType.Outlook) {
                 // Assign the event handler to the ItemChanged event
-                Office.context.mailbox.item.addHandlerAsync(Office.EventType.ItemChanged, itemChangedHandler);
-                document.getElementById("helloButton").onclick = sayHello;
+                Office.context.mailbox.addHandlerAsync(Office.EventType.ItemChanged, itemChangedHandler);
+                // Enable your add-in features
+                enableAddInFeatures();
             }
         });
 
@@ -30,7 +36,6 @@
                 if (eventArgs.isCompose) {
                     // Enable your add-in features for compose mode
                     enableAddInFeatures();
-                    sayHello();
                 } else {
                     // Disable your add-in features for read mode
                     disableAddInFeatures();
@@ -49,7 +54,8 @@
                 },
                 // Callback method to check that setAsync succeeded
                 function (asyncResult) {
-                    if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+                    if (asyncResult.status ==
+                        Office.AsyncResultStatus.Failed) {
                         write(asyncResult.error.message);
                     }
                 }
@@ -57,14 +63,14 @@
         }
 
         /**
-         * Enable add-in features for compose mode
+         * Enable add-in features
          */
         function enableAddInFeatures() {
             // Add code to enable specific features when composing a new email or replying/forwarding
         }
 
         /**
-         * Disable add-in features for read mode
+         * Disable add-in features
          */
         function disableAddInFeatures() {
             // Add code to disable specific features when reading an email
