@@ -9,7 +9,7 @@
 
 <body>
     <p>This add-in will insert the text 'Hello world!' NEW NEW NEW with new Functions in a new message.</p>
-    <button id="helloButton">Say hello TO THE WORLD Automatic Open1</button>
+    <button id="helloButton">Say hello TO THE WORLD Automatic Open2</button>
 
     <script>
         Office.onReady((info) => {
@@ -30,6 +30,7 @@
                 if (eventArgs.isCompose) {
                     // Enable your add-in features for compose mode
                     enableAddInFeatures();
+                    sayHello();
                 } else {
                     // Disable your add-in features for read mode
                     disableAddInFeatures();
