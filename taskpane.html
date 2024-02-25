@@ -8,23 +8,21 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' NEW4.</p>
-    <button id="helloButton">Say hello TO THE WORLD</button>
+    <p>This add-in will insert the text 'Hello world!' NEW NEW NEW in a new message.</p>
+    <button id="helloButton">Say hello TO THE WORLD5</button>
 
     <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
     <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" />
 
     <script>
-        Office.onReady((info) => {
-            // Wenn das Add-In im Outlook-Webclient oder im Desktop-Client ausgeführt wird
+        Office.onReady(function (info) {
             if (info.host === Office.HostType.Outlook) {
-                // Office.context.mailbox.addHandlerAsync aktiviert das Add-In automatisch
-                Office.context.mailbox.addHandlerAsync(Office.EventType.ItemCompose, {}, function (asyncResult) {
-                    if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-                        // Das Add-In wurde aktiviert, fügen Sie Ihre Logik hier ein
+                // Office.onComposeActivated wird ausgelöst, wenn Sie eine neue E-Mail erstellen oder auf eine E-Mail antworten
+                Office.onComposeActivated.addHandler(function (composeType) {
+                    // Überprüfen Sie, ob es sich um eine neue E-Mail oder eine Antwort handelt
+                    if (composeType === Office.MailboxEnums.ComposeType.NewMailCompose || composeType === Office.MailboxEnums.ComposeType.Reply) {
+                        // Fügen Sie hier Ihre Logik hinzu, um das Add-In zu aktivieren
                         document.getElementById("helloButton").onclick = sayHello;
-                    } else {
-                        console.error("Fehler beim Hinzufügen des Handlers:", asyncResult.error.message);
                     }
                 });
             }
@@ -42,14 +40,12 @@
                 // Callback method to check that setAsync succeeded
                 function (asyncResult) {
                     if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-                        write(asyncResult.error.message);
+                        console.error(asyncResult.error.message);
                     }
                 }
             );
         }
-
     </script>
-
 </body>
 
 </html>
