@@ -1,4 +1,3 @@
-<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
 <!DOCTYPE html>
 <html>
 
@@ -8,8 +7,8 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' NEW NEW NEW in a new message.</p>
-    <button id="helloButton">Say hello TO THE WORLD5</button>
+    <p>This add-in will insert the text 'Hello world!' 6 in a new message.</p>
+    <button id="helloButton">Say hello </button>
 
     <!-- The following image URL tracks diagnostic data for this sample add-in. Please remove the image tag if you reuse this sample in your own code project. -->
     <img src="https://pnptelemetry.azurewebsites.net/pnp-officeaddins/samples/outlook-add-in-hello-world-run" />
@@ -17,10 +16,10 @@
     <script>
         Office.onReady(function (info) {
             if (info.host === Office.HostType.Outlook) {
-                // Office.onComposeActivated wird ausgelöst, wenn Sie eine neue E-Mail erstellen oder auf eine E-Mail antworten
-                Office.onComposeActivated.addHandler(function (composeType) {
+                // Office.onMessageCompose wird ausgelöst, wenn Sie eine neue E-Mail erstellen oder auf eine E-Mail antworten
+                Office.onMessageCompose.addHandler(function (composeType) {
                     // Überprüfen Sie, ob es sich um eine neue E-Mail oder eine Antwort handelt
-                    if (composeType === Office.MailboxEnums.ComposeType.NewMailCompose || composeType === Office.MailboxEnums.ComposeType.Reply) {
+                    if (composeType === Office.MailboxEnums.MessageComposeType.New || composeType === Office.MailboxEnums.MessageComposeType.Reply) {
                         // Fügen Sie hier Ihre Logik hinzu, um das Add-In zu aktivieren
                         document.getElementById("helloButton").onclick = sayHello;
                     }
@@ -33,7 +32,7 @@
          */
         function sayHello() {
             Office.context.mailbox.item.body.setAsync(
-                "Hello world TO THE WORLD!",
+                "Hello world!",
                 {
                     coercionType: "html", // Write text as HTML
                 },
