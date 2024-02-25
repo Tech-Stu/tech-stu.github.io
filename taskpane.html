@@ -8,46 +8,39 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 10 in a new message.</p>
-    <!-- Der Button wird standardmäßig ausgeblendet -->
-    <button id="helloButton">Say hello TO THE WORLD</button>
+    <p>This add-in will insert the text 'Hello world!' 11 in a new message.</p>
 
-    <script>
-        Office.onReady(function (info) {
-            // Wenn das Add-In im Outlook-Webclient oder im Desktop-Client ausgeführt wird
-            if (info.host === Office.HostType.Outlook) {
-                // Office.context.mailbox.addHandlerAsync aktiviert das Add-In automatisch
-                Office.context.mailbox.addHandlerAsync(Office.EventType.ItemCompose, {}, function (asyncResult) {
-                    if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-                        // Das Add-In wurde aktiviert, zeige den Button an
-                        document.getElementById("helloButton").style.display = "inline-block";
-                        // Fügen Sie Ihre Logik hier ein
-                        document.getElementById("helloButton").onclick = sayHello;
-                    } else {
-                        console.error("Fehler beim Hinzufügen des Handlers:", asyncResult.error.message);
-                    }
-                });
-            }
-        });
-
-        /**
-         * Writes 'Hello world!' to a new message body.
-         */
-        function sayHello() {
-            Office.context.mailbox.item.body.setAsync(
-                "Hello world TO THE WORLD!",
-                {
-                    coercionType: "html", // Write text as HTML
-                },
-                // Callback method to check that setAsync succeeded
-                function (asyncResult) {
-                    if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-                        console.error(asyncResult.error.message);
-                    }
-                }
-            );
-        }
-    </script>
 </body>
+
+<script>
+
+    Office.onReady((info) => {
+        if (info.host === Office.HostType.Outlook) {
+            // Rufen Sie die Funktion direkt auf, um sie automatisch auszuführen
+            sayHello();
+        }
+    });
+
+    /**
+     * Writes 'Hello world!' to a new message body.
+     */
+    function sayHello() {
+        Office.context.mailbox.item.body.setAsync(
+            "Hello world! ",
+            {
+                coercionType: "html", // Write text as HTML
+            },
+
+            // Callback method to check that setAsync succeeded
+            function (asyncResult) {
+                if (asyncResult.status ==
+                    Office.AsyncResultStatus.Failed) {
+                    write(asyncResult.error.message);
+                }
+            }
+        );
+    }
+
+</script>
 
 </html>
