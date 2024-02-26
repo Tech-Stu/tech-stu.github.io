@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 27 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 28 in a new message.</p>
 
 </body>
 
@@ -16,29 +16,41 @@
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
             // Rufen Sie die Funktion direkt auf, um sie automatisch auszuführen
-            var greeting = Office.context.mailbox.item.sender;
-            sayHello();
+            extractAndInsertName();
         }
     });
 
     /**
-     * Writes 'Hello world!' to a new message body.
+     * Writes 'Hello world!' to a new message body and extracts sender's first and last name.
      */
-    function sayHello() {
-        Office.context.mailbox.item.body.setAsync(
-            "Hello Recipient,<br><br><br><br> Best,<br>Sender", greeting,
-            {
-                coercionType: "html", // Write text as HTML
-            },
+    function extractAndInsertName() {
+        // Holen Sie sich die Absenderinformationen
+        var sender = Office.context.mailbox.item.sender;
 
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-                if (asyncResult.status ==
-                    Office.AsyncResultStatus.Failed) {
-                    write(asyncResult.error.message);
+        // Überprüfen Sie, ob der Absender vorhanden ist und eine E-Mail-Adresse hat
+        if (sender && sender.emailAddress) {
+            // Extrahieren Sie den Vornamen und Nachnamen aus der E-Mail-Adresse
+            var emailParts = sender.emailAddress.split('@')[0].split('.');
+            var firstName = emailParts[0];
+            var lastName = emailParts[1];
+
+            // Fügen Sie den extrahierten Namen in den E-Mail-Body ein
+            Office.context.mailbox.item.body.setAsync(
+                "Hello " + firstName + " " + lastName + ",<br><br><br><br> Best,<br>Sender",
+                {
+                    coercionType: "html", // Write text as HTML
+                },
+                // Callback method to check that setAsync succeeded
+                function (asyncResult) {
+                    if (asyncResult.status ==
+                        Office.AsyncResultStatus.Failed) {
+                        write(asyncResult.error.message);
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            console.error("Absenderinformationen konnten nicht abgerufen werden.");
+        }
     }
 
 </script>
