@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 42 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 43 in a new message.</p>
 
 </body>
 
@@ -16,6 +16,8 @@
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
             // Rufen Sie die Funktion direkt auf, um sie automatisch auszuführen
+            var Recipient = Office.context.mailbox.item.organizer.emailAddress;
+            //var Recipient = Office.context.mailbox.item.organizer.displayName;
             sayHello();
         }
     });
@@ -25,7 +27,7 @@
      */
     function sayHello() {
         //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
-        var Recipient = Office.context.mailbox.item.organizer.displayName;
+        //var Recipient = Office.context.mailbox.item.organizer.displayName;
         Office.context.mailbox.item.body.setAsync(
             "Hello Recipient,<br><br><br><br> Best,<br>Sender",
             {
