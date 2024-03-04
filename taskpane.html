@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 55 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 56 in a new message.</p>
 
 </body>
 
@@ -31,8 +31,8 @@
         var recipients = Office.context.mailbox.item.to;
         var firstRecipient = recipients[0];
         //var recipientDisplayName = firstRecipient.displayName;
-        //var recipientEmailAddress = firstRecipient.emailAddress;
-        recipientEmailAddress = "test";
+        var recipientEmailAddress = firstRecipient.emailAddress;
+        //recipientEmailAddress = "test";
         Office.context.mailbox.item.body.setAsync(
             "Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + recipients + recipientEmailAddress,
             //"Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + recipientEmailAddress,
