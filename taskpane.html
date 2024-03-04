@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 61 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 62 in a new message.</p>
 
 </body>
 
@@ -18,6 +18,7 @@
             // Rufen Sie die Funktion direkt auf, um sie automatisch auszuführen
             //const Recipient = Office.context.mailbox.item.organizer.emailAddress;
             //var Recipient = Office.context.mailbox.item.organizer.displayName;
+            //Office.context.mailbox.item.to.getAsync();
             sayHello();
         }
     });
@@ -25,7 +26,20 @@
     /**
      * Writes 'Hello world!' to a new message body.
      */
-    function sayHello() {
+    
+     Office.context.mailbox.item.to.getAsync(function(asyncResult) {
+        if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
+        const msgTo = asyncResult.value;
+        console.log("Message being sent to:");
+        for (let i = 0; i < msgTo.length; i++) {
+        console.log(msgTo[i].displayName + " (" + msgTo[i].emailAddress + ")");
+        }
+        } else {
+        console.error(asyncResult.error);
+        }
+    });
+    
+     function sayHello() {
         //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
         //var Recipient = Office.context.mailbox.item.organizer.displayName;
         var recipients = Office.context.mailbox.item.to;
@@ -34,9 +48,10 @@
         //var recipientEmailAddress = firstRecipient.emailAddress;
         //recipientEmailAddress = "test";
         //var recipientEmailAddress = ;
-        var msgTo = asyncResult.value;
+        //var msgTo = asyncResult.value;
         Office.context.mailbox.item.body.setAsync(
-            "Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + msgTo,
+            console.log("HALLO"),
+            //"Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + msgTo,
             //"Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + recipients[1],
             //"Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + recipients + recipientEmailAddress,
             //"Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + recipientEmailAddress,
