@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 72 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 73 in a new message.</p>
 </body>
 
 <script>
@@ -23,6 +23,7 @@
 
     function insertRecipientInfo() {
     // Zugriff auf die aktuelle E-Mail
+   /*
     var item = Office.context.mailbox.item;
 
     // Empfängerinformationen abrufen
@@ -33,6 +34,8 @@
     var emailAddress = firstRecipient.emailAddress;
     var displayName = firstRecipient.displayName;
 
+    */
+    var displayName = "Hi";
     // Text für den E-Mail-Body erstellen
     var bodyText = "Hallo " + displayName + ",\n\n";
     bodyText += "Ihre E-Mail-Adresse lautet: " + emailAddress + "\n\n";
