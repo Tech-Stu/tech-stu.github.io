@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 65 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 66 in a new message.</p>
 
 </body>
 
@@ -19,27 +19,35 @@
             //const Recipient = Office.context.mailbox.item.organizer.emailAddress;
             //var Recipient = Office.context.mailbox.item.organizer.displayName;
             Office.context.mailbox.item.to.getAsync();
-            sayHello();
+            document.getElementById("insertRecipientButton").addEventListener("click", insertRecipientIntoBody);
+            //sayHello();
         }
     });
+
+// Diese Funktion fügt den Empfänger in den Body der Nachricht ein
+function insertRecipientIntoBody() {
+    // Erhalte den aktuellen Empfänger aus dem Outlook-Objektmodell
+    Office.context.mailbox.item.to.getAsync(function(result) {
+        if (result.status === Office.AsyncResultStatus.Succeeded) {
+            var recipients = result.value;
+            var recipientEmails = recipients.map(function(recipient) {
+                return recipient.emailAddress;
+            });
+
+            // Füge die Empfänger-E-Mail-Adressen in den Body der Nachricht ein
+            var body = Office.context.mailbox.item.body;
+            body.prependText("Empfänger: " + recipientEmails.join(", "));
+        } else {
+            console.error("Fehler beim Abrufen der Empfänger: " + result.error.message);
+        }
+    });
+    }
+
 
     /**
      * Writes 'Hello world!' to a new message body.
      */
-    
-     Office.context.mailbox.item.to.getAsync(function(asyncResult) {
-        if (asyncResult.status === Office.AsyncResultStatus.Succeeded) {
-        const msgTo = asyncResult.value;
-        const recipientEmailAddress = msgTo[0].emailAddress;
-        console.log("Message being sent to:");
-        for (let i = 0; i < msgTo.length; i++) {
-        console.log(msgTo[i].displayName + " (" + msgTo[i].emailAddress + ")");
-        }
-        } else {
-        console.error(asyncResult.error);
-        }
-    });
-    
+      
      function sayHello() {
         //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
         //var Recipient = Office.context.mailbox.item.organizer.displayName;
@@ -51,16 +59,6 @@
         //var recipientEmailAddress = ;
         //var msgTo = asyncResult.value;
         
-        let body = '';
-        body = Office.context.mailbox.item.body.getAsync(
-        "text",
-            function (result) {
-                if (result.status === Office.AsyncResultStatus.Succeeded) {
-                body = result.value;
-                console.log(body);
-                }
-                }
-        );
 
         Office.context.mailbox.item.body.setAsync(
             "Hello Recipient,<br><br><br><br> Best,<br>Sender<br>" + recipients + recipientEmailAddress,
