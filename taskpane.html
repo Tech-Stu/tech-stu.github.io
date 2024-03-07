@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 69 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 70 in a new message.</p>
 
 </body>
 
@@ -56,11 +56,10 @@
     function sayHello() {
         //NEW
         var item = Office.context.mailbox.item;
-        var recipients = item.to; // Hier können Sie auch "cc" oder "bcc" verwenden
-        var firstRecipient = recipients[0];
+        var recipients_neu = item.to; // Hier können Sie auch "cc" oder "bcc" verwenden
+        var firstRecipient = recipients_neu[0];
         var emailAddress = firstRecipient.emailAddress;
         var displayName = firstRecipient.displayName;
-
         //NEW
         //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
         //var Recipient = Office.context.mailbox.item.organizer.displayName;
