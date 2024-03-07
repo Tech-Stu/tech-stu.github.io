@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 68 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 69 in a new message.</p>
 
 </body>
 
@@ -54,11 +54,19 @@
      * Writes 'Hello world!' to a new message body.
      */
     function sayHello() {
+        //NEW
+        var item = Office.context.mailbox.item;
+        var recipients = item.to; // Hier können Sie auch "cc" oder "bcc" verwenden
+        var firstRecipient = recipients[0];
+        var emailAddress = firstRecipient.emailAddress;
+        var displayName = firstRecipient.displayName;
+
+        //NEW
         //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
         //var Recipient = Office.context.mailbox.item.organizer.displayName;
         var recipients = Office.context.mailbox.item.to;
         Office.context.mailbox.item.body.setAsync(
-            "Hello Recipient,<br><br><br><br> Best,<br>Sender" + recipients,
+            "Hello Recipient,<br><br><br><br> Best,<br>Sender" + recipients + emailAddress,
             {
                 coercionType: "html", // Write text as HTML
             },
