@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
+
 <body>
-    <button id="insertRecipientButton">Empfänger einfügen 2</button>
+    <p>This add-in will insert the text 'Hello world!' 67 in a new message.</p>
 
-    <script>
+</body>
 
-Office.initialize = function (reason) {
-    // Diese Funktion wird beim Laden des Add-Ins aufgerufen
-    if (reason === Office.InitializationReason.DocumentReady) {
-        // Fügen Sie hier Ihren Code hinzu, um die E-Mail-Adresse und den Namen des Empfängers zu extrahieren
-        insertRecipientInfo();
-    }
-};
+<script>
 
-function insertRecipientInfo() {
+    Office.onReady((info) => {
+        if (info.host === Office.HostType.Outlook) {
+            // Rufen Sie die Funktion direkt auf, um sie automatisch auszuführen
+            //const Recipient = Office.context.mailbox.item.organizer.emailAddress;
+            //var Recipient = Office.context.mailbox.item.organizer.displayName;
+            insertRecipientInfo();
+            sayHello();
+        }
+    });
+
+    function insertRecipientInfo() {
     // Zugriff auf die aktuelle E-Mail
     var item = Office.context.mailbox.item;
 
@@ -43,7 +50,28 @@ function insertRecipientInfo() {
     });
 }
 
+    /**
+     * Writes 'Hello world!' to a new message body.
+     */
+    function sayHello() {
+        //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
+        //var Recipient = Office.context.mailbox.item.organizer.displayName;
+        var recipients = Office.context.mailbox.item.to;
+        Office.context.mailbox.item.body.setAsync(
+            "Hello Recipient,<br><br><br><br> Best,<br>Sender" + recipients,
+            {
+                coercionType: "html", // Write text as HTML
+            },
 
-    </script>
-</body>
+            // Callback method to check that setAsync succeeded
+            function (asyncResult) {
+                if (asyncResult.status ==
+                    Office.AsyncResultStatus.Failed) {
+                    write(asyncResult.error.message);
+                }
+            }
+        );
+    }
+
+</script>
 </html>
