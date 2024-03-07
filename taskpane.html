@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 74 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 75 in a new message.</p>
 </body>
 
 <script>
@@ -38,7 +38,8 @@
     var displayName = "Hi";
     // Text für den E-Mail-Body erstellen
     var bodyText = "Hallo " + displayName + ",\n\n";
-    bodyText += "Ihre E-Mail-Adresse lautet: " + emailAddress + "\n\n";
+    //bodyText += "Ihre E-Mail-Adresse lautet: " + emailAddress + "\n\n";
+    bodyText += "Ihre E-Mail-Adresse lautet: " + "\n\n";
     bodyText += "Vielen Dank und beste Grüße!";
 
     Office.context.mailbox.item.body.setAsync(
