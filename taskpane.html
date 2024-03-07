@@ -4,28 +4,46 @@
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
 </head>
 <body>
-    <button id="insertRecipientButton">Empfänger einfügen 1</button>
+    <button id="insertRecipientButton">Empfänger einfügen 2</button>
 
     <script>
-        // Event-Handler für den Klick auf die Schaltfläche
-        document.getElementById("insertRecipientButton").addEventListener("click", insertRecipientIntoBody);
 
-        // Funktion zum Einfügen des Empfängers in den Body der Nachricht
-        function insertRecipientIntoBody() {
-            Office.context.mailbox.item.to.getAsync(function(result) {
-                if (result.status === Office.AsyncResultStatus.Succeeded) {
-                    var recipients = result.value;
-                    var recipientEmails = recipients.map(function(recipient) {
-                        return recipient.emailAddress;
-                    });
+Office.initialize = function (reason) {
+    // Diese Funktion wird beim Laden des Add-Ins aufgerufen
+    if (reason === Office.InitializationReason.DocumentReady) {
+        // Fügen Sie hier Ihren Code hinzu, um die E-Mail-Adresse und den Namen des Empfängers zu extrahieren
+        insertRecipientInfo();
+    }
+};
 
-                    var body = Office.context.mailbox.item.body;
-                    body.prependText("Empfänger: " + recipientEmails.join(", "));
-                } else {
-                    console.error("Fehler beim Abrufen der Empfänger: " + result.error.message);
-                }
-            });
+function insertRecipientInfo() {
+    // Zugriff auf die aktuelle E-Mail
+    var item = Office.context.mailbox.item;
+
+    // Empfängerinformationen abrufen
+    var recipients = item.to; // Hier können Sie auch "cc" oder "bcc" verwenden
+
+    // E-Mail-Adresse und Name des ersten Empfängers
+    var firstRecipient = recipients[0];
+    var emailAddress = firstRecipient.emailAddress;
+    var displayName = firstRecipient.displayName;
+
+    // Text für den E-Mail-Body erstellen
+    var bodyText = "Hallo " + displayName + ",\n\n";
+    bodyText += "Ihre E-Mail-Adresse lautet: " + emailAddress + "\n\n";
+    bodyText += "Vielen Dank und beste Grüße!";
+
+    // E-Mail-Body aktualisieren
+    item.body.setAsync(bodyText, { coercionType: Office.CoercionType.Text }, function (result) {
+        if (result.status === Office.AsyncResultStatus.Succeeded) {
+            console.log("Empfängerinformationen erfolgreich eingefügt.");
+        } else {
+            console.error("Fehler beim Einfügen der Empfängerinformationen: " + result.error.message);
         }
+    });
+}
+
+
     </script>
 </body>
 </html>
