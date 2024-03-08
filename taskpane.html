@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>Dieses Add-In fügt automatisch den Text 'Hallo Welt!' 81 in eine neue Nachricht ein.</p>
+    <p>Dieses Add-In fügt automatisch den Text 'Hallo Welt!' 82 in eine neue Nachricht ein.</p>
 </body>
 
 <script>
@@ -37,7 +37,7 @@
         bodyText += "Vielen Dank und beste Grüße!";
 
         Office.context.mailbox.item.body.setAsync(
-            bodyText,
+            MeinText,
             {
                 coercionType: "text", // Write text as plain text
             },
