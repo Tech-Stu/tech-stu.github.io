@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 76 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 77 in a new message.</p>
 </body>
 
 <script>
@@ -47,6 +47,14 @@
             {
                 coercionType: "html", // Write text as HTML
             },
+
+            // Callback method to check that setAsync succeeded
+            function (asyncResult) {
+                if (asyncResult.status ==
+                    Office.AsyncResultStatus.Failed) {
+                    write(asyncResult.error.message);
+                }
+            }
 
 /*
     // E-Mail-Body aktualisieren
