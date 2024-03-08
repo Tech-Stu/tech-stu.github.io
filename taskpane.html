@@ -7,48 +7,43 @@
 </head>
 
 <body>
-    <p>Dieses Add-In fügt automatisch den Text 'Hallo Welt!' 85 in eine neue Nachricht ein.</p>
+    <p>This add-in will insert the text 'Hello world!' 49 in a new message.</p>
+
 </body>
 
 <script>
+
     Office.onReady((info) => {
         if (info.host === Office.HostType.Outlook) {
             // Rufen Sie die Funktion direkt auf, um sie automatisch auszuführen
-            insertRecipientInfo();
+            //const Recipient = Office.context.mailbox.item.organizer.emailAddress;
+            //var Recipient = Office.context.mailbox.item.organizer.displayName;
+            sayHello();
         }
     });
 
-    function insertRecipientInfo() {
-        // Zugriff auf die aktuelle E-Mail
-        var item = Office.context.mailbox.item;
-
-        // Empfängerinformationen abrufen
-        var recipients = item.to; // Hier können Sie auch "cc" oder "bcc" verwenden
-
-        // E-Mail-Adresse und Name des ersten Empfängers
-        var firstRecipient = recipients[0];
-        var emailAddress = firstRecipient.emailAddress;
-        var displayName = firstRecipient.displayName;
-
-        // Text für den E-Mail-Body erstellen
-        var bodyText = "Hallo " + displayName + ",\n\n";
-        bodyText += "Ihre E-Mail-Adresse lautet: " + emailAddress + "\n\n";
-        bodyText += "Vielen Dank und beste Grüße!";
-
+    /**
+     * Writes 'Hello world!' to a new message body.
+     */
+    function sayHello() {
+        //var Recipient = Office.context.mailbox.item.organizer.emailAddress;
+        //var Recipient = Office.context.mailbox.item.organizer.displayName;
+        var recipients = Office.context.mailbox.item.to;
         Office.context.mailbox.item.body.setAsync(
-            "hallo",
+            "Hello Recipient,<br><br><br><br> Best,<br>Sender" + recipients,
             {
-                coercionType: Office.CoercionType.Text, // Text als Klartext schreiben
+                coercionType: "html", // Write text as HTML
             },
 
-            // Callback-Methode zum Überprüfen, ob setAsync erfolgreich war
+            // Callback method to check that setAsync succeeded
             function (asyncResult) {
-                if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-                    console.error(asyncResult.error.message);
+                if (asyncResult.status ==
+                    Office.AsyncResultStatus.Failed) {
+                    write(asyncResult.error.message);
                 }
             }
         );
     }
-</script>
 
+</script>
 </html>
