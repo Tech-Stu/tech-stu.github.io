@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>Dieses Add-In fügt automatisch den Text 'Hallo Welt!' 83 in eine neue Nachricht ein.</p>
+    <p>Dieses Add-In fügt automatisch den Text 'Hallo Welt!' 84 in eine neue Nachricht ein.</p>
 </body>
 
 <script>
@@ -31,15 +31,14 @@
         var displayName = firstRecipient.displayName;
 
         // Text für den E-Mail-Body erstellen
-        var MeinText = "HALLO!"
         var bodyText = "Hallo " + displayName + ",\n\n";
         bodyText += "Ihre E-Mail-Adresse lautet: " + emailAddress + "\n\n";
         bodyText += "Vielen Dank und beste Grüße!";
 
         Office.context.mailbox.item.body.setAsync(
-            "HALLO",
+            bodyText,
             {
-                coercionType: "text", // Write text as plain text
+                coercionType: Office.CoercionType.Text, // Text als Klartext schreiben
             },
 
             // Callback-Methode zum Überprüfen, ob setAsync erfolgreich war
