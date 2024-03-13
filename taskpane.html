@@ -8,7 +8,7 @@
 
 <body>
 
-    <p>This add-in will insert the text 'Hello world!' 98 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 99 in a new message.</p>
 </body>
 
 <script type="text/javascript">
@@ -29,11 +29,11 @@
 
         var recipients = Office.context.mailbox.item.to;
 
-        //var firstRecipient = recipients[0];
+        var firstRecipient = recipients[0];
 
         //var displayName = firstRecipient.displayName;
 
-        Office.context.mailbox.item.body.setAsync(`Hello YOU,<br><br><br><br> Best,<br>Sender`,
+        Office.context.mailbox.item.body.setAsync(`Hello YOU99,<br><br><br><br> Best,<br>Sender`,
             {
                 coercionType: "html", // Write text as HTML
             },
