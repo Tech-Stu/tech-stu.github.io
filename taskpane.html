@@ -8,22 +8,23 @@
 
 <body>
 
-    <p>This add-in will insert the text 'Hello world!' 112 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 113 in a new message.</p>
 </body>
 
 <script type="text/javascript">
 
-    Office.onReady((info) => {
+let item;
 
-        if (info.host === Office.HostType.Outlook) {
-            getAllRecipients();
-            //sayHello();
-        }
-    });
+// Confirms that the Office.js library is loaded.
+Office.onReady((info) => {
+    if (info.host === Office.HostType.Outlook) {
+        item = Office.context.mailbox.item;
+        getAllRecipients();
+    }
+});
 
-    /** * * Writes 'Hello world!' to a new message body. * * */
-
-    function getAllRecipients() {
+// Gets the email addresses of all the recipients of the item being composed.
+function getAllRecipients() {
     let toRecipients, ccRecipients, bccRecipients;
 
     // Verify if the mail item is an appointment or message.
@@ -36,7 +37,17 @@
         ccRecipients = item.cc;
         bccRecipients = item.bcc;
     }
-    }
+
+    // Get the recipients from the To or Required field of the item being composed.
+    toRecipients.getAsync((asyncResult) => {
+        if (asyncResult.status === Office.AsyncResultStatus.Failed) {
+            write(asyncResult.error.message);
+            return;
+        }
+
+        // Display the email addresses of the recipients or attendees.
+        write(`Recipients in the To or Required field: ${displayAddresses(asyncResult.value)}`);
+    });
 
     function sayHello() {
     var recipients = Office.context.mailbox.item.to;
