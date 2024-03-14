@@ -7,8 +7,7 @@
 </head>
 
 <body>
-
-    <p>This add-in will insert the text 'Hello world!' 113 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 114 in a new message.</p>
 </body>
 
 <script type="text/javascript">
@@ -48,72 +47,7 @@ function getAllRecipients() {
         // Display the email addresses of the recipients or attendees.
         write(`Recipients in the To or Required field: ${displayAddresses(asyncResult.value)}`);
     });
-
-    function sayHello() {
-    var recipients = Office.context.mailbox.item.to;
-    console.log("Recipients:", recipients);
-
-    if (recipients.length > 0) {
-        var firstRecipient = recipients[0];
-        console.log("First recipient:", firstRecipient);
-
-        if (firstRecipient.emailAddress) {
-            var whatever = firstRecipient.displayName;
-            var whatever2 = firstRecipient.emailAddress;
-            console.log("Display name of first recipient:", whatever2);
-        } else {
-            console.log("Email address not available for first recipient.");
-        }
-    } else {
-        console.log("No recipients found.");
-    }
-
-    Office.context.mailbox.item.body.setAsync("Hello YOU110" + whatever + ",<br><br><br><br> Best,<br>Sender",
-            {
-                coercionType: "html", // Write text as HTML
-            },
-            
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-            
-                if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-            
-                    console.log(asyncResult.error.message);
-                }
-            }
-        );
-    }
-
-
-/*
-    function sayHello() {
-
-        debugger;
-
-        var recipients = Office.context.mailbox.item.to;
-
-        var firstRecipient = recipients[0];
-
-        //GEHT NICHT
-        //var whatever = firstRecipient.displayName;
-        var whatever = firstRecipient.emailAddress;
-
-        Office.context.mailbox.item.body.setAsync(`Hello YOU107,<br><br><br><br> Best,<br>Sender`,
-            {
-                coercionType: "html", // Write text as HTML
-            },
-            
-            // Callback method to check that setAsync succeeded
-            function (asyncResult) {
-            
-                if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-            
-                    console.log(asyncResult.error.message);
-                }
-            }
-        );
-    }
-*/
+}
 
 </script>
 
