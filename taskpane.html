@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 115 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 116 in a new message.</p>
 </body>
 
 <script type="text/javascript">
@@ -45,14 +45,12 @@ function getAllRecipients() {
         }
 
         // Display the email addresses of the recipients or attendees.
-        Office.context.mailbox.item.body.setAsync(`Hello YOU107 ${displayAddresses(asyncResult.value)`,
+        Office.context.mailbox.item.body.setAsync(`Recipients in the To or Required field: ${displayAddresses(asyncResult.value)}`,
             {
                 coercionType: "html", // Write text as HTML
             },
-        //write(`Recipients in the To or Required field: ${displayAddresses(asyncResult.value)}`);
     });
 }
 
 </script>
-
 </html>
