@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 118 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 119 in a new message.</p>
 </body>
 
 <script type="text/javascript">
@@ -48,24 +48,7 @@ function getAllRecipients() {
         write(`Recipients in the To or Required field: ${displayAddresses(asyncResult.value)}`);
     });
 
-    // Get the recipients from the Cc or Optional field of the item being composed.
-    ccRecipients.getAsync((asyncResult) => {
-        if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-            write(asyncResult.error.message);
-            return;
-        }
-
-        // Display the email addresses of the recipients or attendees.
-        write(`Recipients in the Cc or Optional field: ${displayAddresses(asyncResult.value)}`);
     });
-
-    // Get the recipients from the Bcc field of the message being composed, if applicable.
-    if (bccRecipients.length > 0) {
-        bccRecipients.getAsync((asyncResult) => {
-        if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-            write(asyncResult.error.message);
-            return;
-        }
 
         // Display the email addresses of the recipients.
         write(`Recipients in the Bcc field: ${displayAddresses(asyncResult.value)}`);
@@ -82,10 +65,6 @@ function displayAddresses (recipients) {
     }
 }
 
-// Writes to a div with id="message" on the page.
-function write(message) {
-    document.getElementById("message").innerText += message;
-}
 
 </script>
 </html>
