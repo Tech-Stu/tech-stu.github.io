@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <p>This add-in will insert the text 'Hello world!' 120 in a new message.</p>
+    <p>This add-in will insert the text 'Hello world!' 121 in a new message.</p>
 </body>
 
 <script type="text/javascript">
@@ -59,6 +59,7 @@ function getAllRecipients() {
         write(`Recipients in the Cc or Optional field: ${displayAddresses(asyncResult.value)}`);
     });
 
+    /*
     // Get the recipients from the Bcc field of the message being composed, if applicable.
     if (bccRecipients.length > 0) {
         bccRecipients.getAsync((asyncResult) => {
@@ -73,14 +74,17 @@ function getAllRecipients() {
     } else {
         write("Recipients in the Bcc field: None");
     }
+    */
 }
 
+/*
 // Displays the email address of each recipient.
 function displayAddresses (recipients) {
     for (let i = 0; i < recipients.length; i++) {
         write(recipients[i].emailAddress);
     }
 }
+*/
 
 /*
 // Writes to a div with id="message" on the page.
